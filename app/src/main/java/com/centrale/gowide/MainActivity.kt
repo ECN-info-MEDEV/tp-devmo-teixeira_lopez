@@ -24,7 +24,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.centrale.gowide.ui.theme.GoWideTheme
-import com.centrale.gowide.ui.GameScreen
+import com.centrale.gowide.ui.AppScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    GameScreen()
+                    AppScreen()
                 }
             }
         }

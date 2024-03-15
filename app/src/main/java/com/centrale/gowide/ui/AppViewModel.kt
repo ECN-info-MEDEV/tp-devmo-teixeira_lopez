@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.centrale.gowide.data.allWords
 
 
-class GameViewModel: ViewModel() {
+class AppViewModel: ViewModel() {
     // Backing property to avoid state updates from other classes
-    private val _uiState = MutableStateFlow(GameUiState())
-    val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(AppUiState())
+    val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
     var username by mutableStateOf("")
         private set
 
