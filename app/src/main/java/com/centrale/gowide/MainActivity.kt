@@ -23,6 +23,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.centrale.gowide.ui.GoWideApp
 import com.centrale.gowide.ui.theme.GoWideTheme
 import com.centrale.gowide.ui.LoginScreen
 
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    LoginScreen()
+                    GoWideApp()
                 }
             }
         }

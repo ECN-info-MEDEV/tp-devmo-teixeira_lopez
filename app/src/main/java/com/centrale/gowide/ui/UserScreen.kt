@@ -62,12 +62,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun LoginScreen(appViewModel: AppViewModel = viewModel(),
+fun UserScreen(appViewModel: AppViewModel = viewModel(),
                 modifier: Modifier,
                 onSubmitButtonClicked: () -> Unit = {} ) {
     val gameUiState by appViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
-    val image = painterResource(R.drawable.logo_go)
 
     Column(
         modifier = Modifier
@@ -78,13 +77,7 @@ fun LoginScreen(appViewModel: AppViewModel = viewModel(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.fillMaxWidth(),) {
-            Image(
-                painter = image,
-                contentDescription = null
-        )
-        }
-        LoginLayout(
+        UserLayout(
             currentScrambledWord = gameUiState.currentScrambledWord,
             onUserGuessChanged = { appViewModel.updateUsername(it) },
             onPasswordChanged =  { appViewModel.updatePassword(it) },
@@ -110,7 +103,7 @@ fun LoginScreen(appViewModel: AppViewModel = viewModel(),
                     containerColor = colorResource(R.color.navygreen)
                 ),
 
-                onClick = onSubmitButtonClicked
+                onClick = { }
             ) {
                 Text(
                     text = stringResource(R.string.login),
@@ -125,7 +118,7 @@ fun LoginScreen(appViewModel: AppViewModel = viewModel(),
 
 
 @Composable
-fun LoginLayout(
+fun UserLayout(
     onUserGuessChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     userGuess: String,
@@ -228,7 +221,7 @@ private fun FinalScoreDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun UserScreenPreview() {
     GoWideTheme {
         LoginScreen(
         modifier=Modifier.fillMaxHeight()
