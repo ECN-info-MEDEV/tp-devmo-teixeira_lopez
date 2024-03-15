@@ -53,6 +53,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
@@ -78,14 +79,16 @@ fun LoginScreen(appViewModel: AppViewModel = viewModel(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.fillMaxWidth(),) {
+        Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(),
+
+            ) {
             Image(
+                modifier = Modifier.fillMaxWidth(),
                 painter = image,
                 contentDescription = null
         )
         }
         LoginLayout(
-            currentScrambledWord = gameUiState.currentScrambledWord,
             onUserGuessChanged = { appViewModel.updateUsername(it) },
             onPasswordChanged =  { appViewModel.updatePassword(it) },
             userGuess = appViewModel.username,
@@ -105,7 +108,7 @@ fun LoginScreen(appViewModel: AppViewModel = viewModel(),
         ) {
 
             Button(
-                modifier = Modifier.height(50.dp).width(200.dp),
+                modifier = Modifier.height(70.dp).width(200.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorResource(R.color.navygreen)
                 ),
@@ -131,14 +134,12 @@ fun LoginLayout(
     userGuess: String,
     passwordGuess: String,
     onKeyboardDone: () -> Unit,
-    currentScrambledWord: String,
     modifier: Modifier = Modifier,
 ) {
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
 
-    Card(
+    Box(
         modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(mediumPadding),
