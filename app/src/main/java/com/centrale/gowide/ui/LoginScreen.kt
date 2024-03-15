@@ -61,7 +61,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun AppScreen(appViewModel: AppViewModel = viewModel()) {
+fun LoginScreen(appViewModel: AppViewModel = viewModel()) {
     val gameUiState by appViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
     val image = painterResource(R.drawable.logo_go)
@@ -81,7 +81,7 @@ fun AppScreen(appViewModel: AppViewModel = viewModel()) {
                 contentDescription = null
         )
         }
-        AppLayout(
+        LoginLayout(
             currentScrambledWord = gameUiState.currentScrambledWord,
             onUserGuessChanged = { appViewModel.updateUsername(it) },
             onPasswordChanged =  { appViewModel.updatePassword(it) },
@@ -122,7 +122,7 @@ fun AppScreen(appViewModel: AppViewModel = viewModel()) {
 
 
 @Composable
-fun AppLayout(
+fun LoginLayout(
     onUserGuessChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     userGuess: String,
@@ -225,8 +225,8 @@ private fun FinalScoreDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun AppScreenPreview() {
+fun LoginScreenPreview() {
     GoWideTheme {
-        AppScreen()
+        LoginScreen()
     }
 }
