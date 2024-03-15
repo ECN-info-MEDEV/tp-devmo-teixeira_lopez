@@ -30,4 +30,6 @@
     <string name="password">pawssord</string>
     <string name="username">username</string>
     <string name="login">Login</string>
+    <string name="help">Help</string>
+    <string name="register">Register</string>
 </resources>

@@ -55,74 +55,119 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun LoginScreen(appViewModel: AppViewModel = viewModel(),
-                modifier: Modifier,
-                onSubmitButtonClicked: () -> Unit = {} ) {
+fun LoginScreen(
+    appViewModel: AppViewModel = viewModel(),
+    modifier: Modifier,
+    onSubmitButtonClicked: () -> Unit = {}
+) {
     val gameUiState by appViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
+    val largePadding = dimensionResource(R.dimen.padding_large)
     val image = painterResource(R.drawable.logo_go)
 
-    Column(
+    Box(
         modifier = Modifier
-            .statusBarsPadding()
-            .verticalScroll(rememberScrollState())
-            .safeDrawingPadding()
-            .padding(mediumPadding),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize()
+            .padding(largePadding)
     ) {
-        Box(modifier = Modifier.fillMaxHeight().fillMaxWidth(),
-
-            ) {
-            Image(
-                modifier = Modifier.fillMaxWidth(),
-                painter = image,
-                contentDescription = null
-        )
-        }
-        LoginLayout(
-            onUserGuessChanged = { appViewModel.updateUsername(it) },
-            onPasswordChanged =  { appViewModel.updatePassword(it) },
-            userGuess = appViewModel.username,
-            passwordGuess = appViewModel.password ,
-            onKeyboardDone = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(mediumPadding)
-        )
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .statusBarsPadding()
+                .verticalScroll(rememberScrollState())
+                .safeDrawingPadding()
                 .padding(mediumPadding),
-            verticalArrangement = Arrangement.spacedBy(mediumPadding),
+            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Button(
-                modifier = Modifier.height(70.dp).width(200.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.navygreen)
-                ),
-
-                onClick = onSubmitButtonClicked
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .size(200.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.login),
-                    fontSize = 24.sp
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = image,
+                    contentDescription = null
                 )
             }
-
+            LoginLayout(
+                onUserGuessChanged = { appViewModel.updateUsername(it) },
+                onPasswordChanged = { appViewModel.updatePassword(it) },
+                userGuess = appViewModel.username,
+                passwordGuess = appViewModel.password,
+                onKeyboardDone = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(mediumPadding)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(mediumPadding),
+                verticalArrangement = Arrangement.spacedBy(mediumPadding),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Button(
+                    modifier = Modifier
+                        .height(70.dp)
+                        .width(200.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(R.color.navygreen)
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    onClick = onSubmitButtonClicked
+                ) {
+                    Text(
+                        text = stringResource(R.string.login),
+                        fontSize = 24.sp
+                    )
+                }
+            }
         }
 
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(mediumPadding),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(mediumPadding)
+        ) {
+            TextButton(
+                onClick = onSubmitButtonClicked,
+                modifier = Modifier.weight(1f),
+            ) {
+                Text(
+                    text = stringResource(R.string.help),
+                    fontSize = 20.sp,
+                    color = colorResource(R.color.navygreen)
+                )
+            }
+            TextButton(
+                onClick = onSubmitButtonClicked,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = stringResource(R.string.register),
+                    fontSize = 20.sp,
+                    color = colorResource(R.color.navygreen)
+                )
+            }
+        }
     }
 }
 
@@ -167,7 +212,7 @@ fun LoginLayout(
                 )
             )
             OutlinedTextField(
-                value = userGuess,
+                value = passwordGuess,
                 singleLine = true,
                 shape = shapes.large,
                 modifier = Modifier.fillMaxWidth(),
@@ -176,7 +221,7 @@ fun LoginLayout(
                     unfocusedContainerColor = colorScheme.surface,
                     disabledContainerColor = colorScheme.surface,
                 ),
-                onValueChange = onUserGuessChanged,
+                onValueChange = onPasswordChanged,
                 label = { Text(stringResource(R.string.password)) },
                 isError = false,
                 keyboardOptions = KeyboardOptions.Default.copy(
