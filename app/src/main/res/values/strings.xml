@@ -31,6 +31,8 @@
     <string name="log_out">Log out</string>
     <string name="username">username</string>
     <string name="login">Login</string>
+    <string name="help">Help</string>
+    <string name="register">Register</string>
     <string name="username_label">Nom dutilisateur</string>
     <string name="email_label">Email</string>
     <string name="password_label">Mot de passe</string>
