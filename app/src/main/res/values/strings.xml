@@ -28,6 +28,12 @@
     <string name="play_again">Play Again</string>
     <string name="wrong_guess">Wrong Guess!</string>
     <string name="password">pawssord</string>
+    <string name="log_out">Log out</string>
     <string name="username">username</string>
     <string name="login">Login</string>
+    <string name="username_label">Nom dutilisateur</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Mot de passe</string>
+    <string name="interests_label">Centres dintérêt</string>
+    <string name="change_button_label">Changer</string>
 </resources>
