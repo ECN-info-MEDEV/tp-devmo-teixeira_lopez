@@ -43,4 +43,4 @@ fun GreetingPreview() {
     GoWideTheme {
         Greeting("Android")
     }
-}
+}@
