@@ -3,6 +3,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.centrale.gowide.data.users
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,5 +24,15 @@ class AppViewModel: ViewModel() {
     }
     fun updatePassword(guessedPass: String){
         password = guessedPass
+    }
+
+    fun verifyCredentials(
+        onSuccess: () -> Unit
+    ) {
+        // Vérifie si le Pair(username, password) est présent dans la liste
+        val isValid = users.any { it.first == username && it.second == password }
+        if (isValid) {
+            onSuccess() // Exécute la fonction onSuccess si les identifiants sont valides
+        }
     }
 }
