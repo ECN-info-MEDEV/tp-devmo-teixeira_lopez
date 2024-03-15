@@ -1,6 +1,6 @@
 package com.centrale.gowide.ui
 
-data class GameUiState(
+data class AppUiState(
     val currentScrambledWord: String = ""
 
 )

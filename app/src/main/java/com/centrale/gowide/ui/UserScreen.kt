@@ -16,7 +16,6 @@
 package com.centrale.gowide.ui
 
 import android.app.Activity
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,8 +33,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
-import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -43,12 +40,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,18 +54,19 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
-    val gameUiState by gameViewModel.uiState.collectAsState()
+fun UserScreen(appViewModel: AppViewModel = viewModel(),
+                modifier: Modifier,
+                onSubmitButtonClicked: () -> Unit = {} ) {
+    val gameUiState by appViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
-    val image = painterResource(R.drawable.logo_go)
 
     Column(
         modifier = Modifier
@@ -81,18 +77,12 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.fillMaxWidth(),) {
-            Image(
-                painter = image,
-                contentDescription = null
-        )
-        }
-        GameLayout(
+        UserLayout(
             currentScrambledWord = gameUiState.currentScrambledWord,
-            onUserGuessChanged = { gameViewModel.updateUsername(it) },
-            onPasswordChanged =  { gameViewModel.updatePassword(it) },
-            userGuess = gameViewModel.username,
-            passwordGuess = gameViewModel.password ,
+            onUserGuessChanged = { appViewModel.updateUsername(it) },
+            onPasswordChanged =  { appViewModel.updatePassword(it) },
+            userGuess = appViewModel.username,
+            passwordGuess = appViewModel.password ,
             onKeyboardDone = { },
             modifier = Modifier
                 .fillMaxWidth()
@@ -128,7 +118,7 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
 
 
 @Composable
-fun GameLayout(
+fun UserLayout(
     onUserGuessChanged: (String) -> Unit,
     onPasswordChanged: (String) -> Unit,
     userGuess: String,
@@ -231,8 +221,10 @@ private fun FinalScoreDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun GameScreenPreview() {
+fun UserScreenPreview() {
     GoWideTheme {
-        GameScreen()
+        LoginScreen(
+        modifier=Modifier.fillMaxHeight()
+        )
     }
 }
