@@ -2,6 +2,10 @@
 package com.centrale.gowide.ui
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,6 +58,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.core.content.ContextCompat.startActivity
 
 @Composable
 fun LoginScreen(
@@ -65,7 +70,6 @@ fun LoginScreen(
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
     val largePadding = dimensionResource(R.dimen.padding_large)
     val image = painterResource(R.drawable.logo_go)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -97,7 +101,7 @@ fun LoginScreen(
                 onPasswordChanged = { appViewModel.updatePassword(it) },
                 userGuess = appViewModel.username,
                 passwordGuess = appViewModel.password,
-                onKeyboardDone = { },
+                onKeyboardDone = { appViewModel.verifyCredentials(onSubmitButtonClicked) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
@@ -136,7 +140,7 @@ fun LoginScreen(
                 .padding(mediumPadding)
         ) {
             TextButton(
-                onClick = onSubmitButtonClicked,
+                onClick = {appViewModel.updateCallClicked(true)},
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
@@ -160,6 +164,7 @@ fun LoginScreen(
     WrongPasswordDialog(
         appViewModel = appViewModel,modifier = Modifier
     )
+    callHelp(appViewModel.callClicked)
 }
 
 
@@ -221,7 +226,7 @@ fun LoginLayout(
                     imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
-                    onDone = { }
+                    onDone = { onKeyboardDone() }
                 )
             )
         }
@@ -257,6 +262,18 @@ private fun WrongPasswordDialog(
                 }
             },
             confirmButton = {}
+        )
+    }
+}
+@Composable
+fun callHelp (visible: Boolean) {
+    val context = LocalContext.current
+    val phone_intent = Intent(Intent.ACTION_CALL)
+    // Set data of Intent through Uri by parsing phone number
+    phone_intent.data = Uri.parse("tel:0749949186")
+    if(visible){
+        context.startActivity(
+            phone_intent
         )
     }
 }

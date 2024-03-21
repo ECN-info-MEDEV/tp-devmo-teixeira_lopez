@@ -22,6 +22,8 @@ class AppViewModel: ViewModel() {
 
     var missedPass by mutableStateOf(false)
         private set
+    var callClicked by mutableStateOf(false)
+        private set
     fun updateUsername(guessedUser: String){
         username = guessedUser
     }
@@ -30,6 +32,10 @@ class AppViewModel: ViewModel() {
     }
     fun updateMissedPass(retry: Boolean){
         missedPass = retry
+    }
+
+    fun updateCallClicked (state: Boolean){
+        callClicked = state
     }
 
     fun verifyCredentials(
