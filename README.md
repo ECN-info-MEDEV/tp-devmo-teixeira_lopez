@@ -5,9 +5,11 @@ GoWide is a mobile application designed to streamline travel planning and coordi
 ## Screenshots
 
 ![Login Screen](screenshots/login_screen.png)
+
 *Login Screen*
 
 ![User Profile Screen](screenshots/user_profile_screen.png)
+
 *User Profile Screen*
 
 ## Features
