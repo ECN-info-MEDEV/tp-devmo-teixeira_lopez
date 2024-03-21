@@ -61,18 +61,26 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextField
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 
@@ -95,7 +103,8 @@ fun UserScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         UserLayout(
-            onSubmitButtonClicked = onSubmitButtonClicked
+            onSubmitButtonClicked = onSubmitButtonClicked,
+            appViewModel = appViewModel
         )
 
 
@@ -105,10 +114,12 @@ fun UserScreen(
 
 @Composable
 fun UserLayout(
-    onSubmitButtonClicked: () -> Unit
+    onSubmitButtonClicked: () -> Unit,
+    appViewModel: AppViewModel
 ) {
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
     val smallPadding = dimensionResource(R.dimen.padding_small)
+    val tags = listOf("Italy", "Mountains", "Wine", "Wine", "Wine", "Wine")
 
     Column(
         verticalArrangement = Arrangement.spacedBy(smallPadding),
@@ -203,27 +214,41 @@ fun UserLayout(
         )
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = mediumPadding),
-            elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
-            border = BorderStroke(1.dp, Color.Black),
+                .fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(4.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White,
             )
         ) {
-            Column(
-                modifier = Modifier.padding(mediumPadding),
-                verticalArrangement = Arrangement.spacedBy(smallPadding)
+            CardTags(
+                modifier = Modifier,
+                tags = appViewModel.tags
+                )
+        }
+        Row {
+            TextField(
+                value = appViewModel.currentTag, // Valeur du tag actuel
+                onValueChange = { appViewModel.updateCurrentTag(it) },
+                placeholder = { Text(text = "Ajouter un tag") },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = colorScheme.surface,
+                    unfocusedContainerColor = colorScheme.surface,
+                    disabledContainerColor = colorScheme.surface,
+                ),
+                modifier = Modifier.weight(0.7f)
+            )
+            Button(
+                onClick = { appViewModel.addElement() },
+                modifier = Modifier.weight(0.3f),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(R.color.navygreen)
+                ),
+
             ) {
-                // Ajoutez des tags ici
-                Tag(text = "Italy")
-                Tag(text = "Mountains")
-                Tag(text = "Wine")
-                // Ajoutez plus de tags selon vos besoins
+                Text(text = stringResource(id = R.string.add))
             }
         }
 
-        // Bouton "Changer"
 
         Button(
             onClick = onSubmitButtonClicked,
@@ -239,16 +264,47 @@ fun UserLayout(
     }
 }
 
+@Composable
+fun CardTags(modifier: Modifier, tags : Set<String>) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3),
+        modifier = Modifier
+            .height(150.dp)
+            .fillMaxWidth(),
+        contentPadding = PaddingValues(
+            start = 10.dp,
+            top = 10.dp,
+            end = 10.dp,
+            bottom = 10.dp,
+        ),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
+        content = {
+            items(tags.size) { index ->
+                Tag(
+                    text = tags.elementAt(index),
+                    modifier = Modifier
+                )
+            }
+        }
+    )
+}
 
 @Composable
-fun Tag(text: String) {
+fun Tag(text: String, modifier: Modifier) {
     Box(
         modifier = Modifier
             .background(Color.White, RoundedCornerShape(16.dp))
-            .border(1.dp, Color.Black, RoundedCornerShape(16.dp))
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .border(1.dp, Color.Gray, RoundedCornerShape(16.dp))
+            .padding(horizontal = 20.dp)
+            .height(25.dp)
+
     ) {
-        Text(text = text)
+        Text(
+            text = text,
+            fontSize = 14.sp, // Taille de police plus petite
+            modifier = Modifier.align(Alignment.Center))
+
     }
 }
 

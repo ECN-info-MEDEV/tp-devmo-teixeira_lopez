@@ -17,6 +17,9 @@ class AppViewModel: ViewModel() {
     var username by mutableStateOf("")
         private set
 
+    var currentTag by mutableStateOf("")
+        private set
+
     var password by mutableStateOf("")
         private set
 
@@ -24,8 +27,16 @@ class AppViewModel: ViewModel() {
         private set
     var callClicked by mutableStateOf(false)
         private set
+
+    var tags: MutableSet<String> = mutableSetOf("Valeur1", "Valeur2")
+        private set
+
     fun updateUsername(guessedUser: String){
         username = guessedUser
+    }
+
+    fun updateCurrentTag(newTag: String){
+        currentTag = newTag
     }
     fun updatePassword(guessedPass: String){
         password = guessedPass
@@ -36,6 +47,15 @@ class AppViewModel: ViewModel() {
 
     fun updateCallClicked (state: Boolean){
         callClicked = state
+    }
+
+    fun addElement() : Boolean {
+        if(!tags.contains(currentTag)) {
+            tags.add(currentTag)
+            currentTag = ""
+            return true
+        }
+        return false
     }
 
     fun verifyCredentials(
