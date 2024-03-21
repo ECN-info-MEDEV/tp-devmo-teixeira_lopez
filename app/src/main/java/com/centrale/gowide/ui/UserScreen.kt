@@ -64,12 +64,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardColors
@@ -120,12 +123,25 @@ fun UserLayout(
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
     val smallPadding = dimensionResource(R.dimen.padding_small)
     val tags = listOf("Italy", "Mountains", "Wine", "Wine", "Wine", "Wine")
+    val image = painterResource(R.drawable.hudson)
 
     Column(
         verticalArrangement = Arrangement.spacedBy(smallPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(mediumPadding)
     ) {
+        Box(
+            modifier = Modifier
+                .size(130.dp)
+                .background(Color.White) // Set the background color
+                .clip(RoundedCornerShape(50)) // Clip with rounded corners
+        ) {
+            Image(
+                modifier = Modifier.fillMaxSize(),
+                painter = image,
+                contentDescription = null
+            )
+        }
         // Row avec le nom d'utilisateur et l'e-mail
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -307,11 +323,6 @@ fun Tag(text: String, modifier: Modifier) {
 
     }
 }
-
-
-/*
- * Creates and shows an AlertDialog with final score.
- */
 
 
 @Preview(showBackground = true)
