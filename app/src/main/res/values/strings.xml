@@ -38,4 +38,8 @@
     <string name="password_label">Mot de passe</string>
     <string name="interests_label">Centres dintérêt</string>
     <string name="change_button_label">Changer</string>
+    <string name="SWW">Something went wrong</string>
+    <string name="SWWPhrase">It looks like your password ou username is not right</string>
+    <string name="retry">Retry</string>
+
 </resources>

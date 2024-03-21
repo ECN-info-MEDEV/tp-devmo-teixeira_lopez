@@ -50,6 +50,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -156,6 +157,9 @@ fun LoginScreen(
             }
         }
     }
+    WrongPasswordDialog(
+        appViewModel = appViewModel,modifier = Modifier
+    )
 }
 
 
@@ -194,6 +198,7 @@ fun LoginLayout(
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ),
+
                 keyboardActions = KeyboardActions(
                     onDone = { }
                 )
@@ -227,37 +232,33 @@ fun LoginLayout(
  * Creates and shows an AlertDialog with final score.
  */
 @Composable
-private fun FinalScoreDialog(
-    score: Int,
-    onPlayAgain: () -> Unit,
+private fun WrongPasswordDialog(
+    appViewModel: AppViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
     val activity = (LocalContext.current as Activity)
-
-    AlertDialog(
-        onDismissRequest = {
-            // Dismiss the dialog when the user clicks outside the dialog or on the back
-            // button. If you want to disable that functionality, simply use an empty
-            // onCloseRequest.
-        },
-        title = { Text(text = stringResource(R.string.congratulations)) },
-        text = { Text(text = stringResource(R.string.you_scored, score)) },
-        modifier = modifier,
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    activity.finish()
+    if (appViewModel.missedPass) {
+        AlertDialog(
+            onDismissRequest = {
+                // Dismiss the dialog when the user clicks outside the dialog or on the back
+                // button. If you want to disable that functionality, simply use an empty
+                // onCloseRequest.
+            },
+            title = { Text(text = stringResource(R.string.SWW)) },
+            text = { Text(text = stringResource(R.string.SWWPhrase)) },
+            modifier = modifier,
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        appViewModel.updateMissedPass(false)
+                    }
+                ) {
+                    Text(text = stringResource(R.string.retry))
                 }
-            ) {
-                Text(text = stringResource(R.string.exit))
-            }
-        },
-        confirmButton = {
-            TextButton(onClick = onPlayAgain) {
-                Text(text = stringResource(R.string.play_again))
-            }
-        }
-    )
+            },
+            confirmButton = {}
+        )
+    }
 }
 
 @Preview(showBackground = true)
