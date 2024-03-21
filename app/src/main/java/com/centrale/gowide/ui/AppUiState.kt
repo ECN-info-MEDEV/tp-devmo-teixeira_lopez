@@ -1,6 +1,8 @@
 package com.centrale.gowide.ui
 
 data class AppUiState(
-    val currentScrambledWord: String = ""
+    val username: String = "",
+    val password: String = ""
+
 
 )

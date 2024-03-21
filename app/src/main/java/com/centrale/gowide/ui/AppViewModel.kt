@@ -8,19 +8,23 @@ import com.centrale.gowide.data.users
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 
 class AppViewModel: ViewModel() {
     // Backing property to avoid state updates from other classes
     private val _uiState = MutableStateFlow(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
-    var username by mutableStateOf("")
+    var usernameGuess by mutableStateOf("")
         private set
 
     var currentTag by mutableStateOf("")
         private set
 
-    var password by mutableStateOf("")
+    var passwordGuess by mutableStateOf("")
+        private set
+
+    var mail by mutableStateOf("")
         private set
 
     var missedPass by mutableStateOf(false)
@@ -28,21 +32,25 @@ class AppViewModel: ViewModel() {
     var callClicked by mutableStateOf(false)
         private set
 
-    var tags: MutableSet<String> = mutableSetOf("Valeur1", "Valeur2")
+    var tags: MutableSet<String> = mutableSetOf()
         private set
 
-    fun updateUsername(guessedUser: String){
-        username = guessedUser
+    fun updateUsername(newUsername: String){
+        usernameGuess = newUsername
     }
 
     fun updateCurrentTag(newTag: String){
         currentTag = newTag
     }
     fun updatePassword(guessedPass: String){
-        password = guessedPass
+         passwordGuess = guessedPass
     }
     fun updateMissedPass(retry: Boolean){
         missedPass = retry
+    }
+
+    fun updateMail(newMail: String){
+        mail = newMail
     }
 
     fun updateCallClicked (state: Boolean){
@@ -62,9 +70,24 @@ class AppViewModel: ViewModel() {
         onSuccess: () -> Unit
     ) {
         // Vérifie si le Pair(username, password) est présent dans la liste
-        val isValid = users.any { it.first == username && it.second == password }
+
+        val isValid = users.any { it[0] == usernameGuess && it[1] == passwordGuess }
+
         if (isValid) {
-            onSuccess() // Exécute la fonction onSuccess si les identifiants sont valides
+            _uiState.update { currentState ->
+                currentState.copy(username = usernameGuess, password = passwordGuess)
+            }
+            val user = users.first { it[0] == usernameGuess && it[1] == passwordGuess }
+            val mail = user[3].toString()
+
+            val newTags = user[4] as? List<String>
+            if (newTags != null) {
+                for (tag in newTags) {
+                    tags.add(tag.toString())
+                }
+            }
+            updateMail(mail)
+            onSuccess()
         } else {
             updateMissedPass(true)
         }

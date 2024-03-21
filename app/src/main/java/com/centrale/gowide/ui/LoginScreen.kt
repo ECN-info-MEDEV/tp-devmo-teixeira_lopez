@@ -66,7 +66,7 @@ fun LoginScreen(
     modifier: Modifier,
     onSubmitButtonClicked: () -> Unit = {}
 ) {
-    val gameUiState by appViewModel.uiState.collectAsState()
+    val uiState by appViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
     val largePadding = dimensionResource(R.dimen.padding_large)
     val image = painterResource(R.drawable.logo_go)
@@ -99,8 +99,8 @@ fun LoginScreen(
             LoginLayout(
                 onUserGuessChanged = { appViewModel.updateUsername(it) },
                 onPasswordChanged = { appViewModel.updatePassword(it) },
-                userGuess = appViewModel.username,
-                passwordGuess = appViewModel.password,
+                userGuess = appViewModel.usernameGuess,
+                passwordGuess = appViewModel.passwordGuess,
                 onKeyboardDone = { appViewModel.verifyCredentials(onSubmitButtonClicked) },
                 modifier = Modifier
                     .fillMaxWidth()

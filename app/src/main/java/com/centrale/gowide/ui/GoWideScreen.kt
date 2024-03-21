@@ -35,7 +35,7 @@ enum class GoWideScreen (){
 
 @Composable
 fun GoWideApp (
-    viewModel: AppViewModel = viewModel (),
+    viewModel: AppViewModel = viewModel(),
     navController: NavHostController = rememberNavController()) {
     Scaffold() { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
@@ -51,7 +51,8 @@ fun GoWideApp (
                         .padding(dimensionResource(R.dimen.padding_medium)),
                     onSubmitButtonClicked = {
                         navController.navigate(GoWideScreen.Profile.name)
-                    }
+                    },
+                    appViewModel = viewModel
                 )
             }
             composable(route = GoWideScreen.Profile.name) {
@@ -61,7 +62,8 @@ fun GoWideApp (
                         .padding(dimensionResource(R.dimen.padding_medium)),
                     onSubmitButtonClicked = {
                         navController.navigate(GoWideScreen.Profile.name)
-                    }
+                    },
+                    appViewModel = viewModel
                 )
             }
 

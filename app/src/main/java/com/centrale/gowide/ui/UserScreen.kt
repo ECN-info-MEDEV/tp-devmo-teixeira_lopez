@@ -90,7 +90,7 @@ fun UserScreen(
     modifier: Modifier,
     onSubmitButtonClicked: () -> Unit = {}
 ) {
-    val gameUiState by appViewModel.uiState.collectAsState()
+    val uiState by appViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
 
     Column(
@@ -104,6 +104,7 @@ fun UserScreen(
     ) {
         UserLayout(
             onSubmitButtonClicked = onSubmitButtonClicked,
+            username = uiState.username,
             appViewModel = appViewModel
         )
 
@@ -115,18 +116,17 @@ fun UserScreen(
 @Composable
 fun UserLayout(
     onSubmitButtonClicked: () -> Unit,
+    username: String,
     appViewModel: AppViewModel
 ) {
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
     val smallPadding = dimensionResource(R.dimen.padding_small)
-    val tags = listOf("Italy", "Mountains", "Wine", "Wine", "Wine", "Wine")
-
+    val uiState by appViewModel.uiState.collectAsState()
     Column(
         verticalArrangement = Arrangement.spacedBy(smallPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(mediumPadding)
     ) {
-        // Row avec le nom d'utilisateur et l'e-mail
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(smallPadding)
@@ -136,18 +136,8 @@ fun UserLayout(
                 verticalArrangement = Arrangement.spacedBy(smallPadding)
             ) {
                 Text(text = stringResource(id = R.string.username_label))
-                TextField(
-                    value = "", // Valeur du nom d'utilisateur
-                    onValueChange = { /* No-op */ },
-                    modifier = Modifier,
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = colorScheme.surface,
-                        unfocusedContainerColor = colorScheme.surface,
-                        disabledContainerColor = colorScheme.surface,
-                    ),
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        imeAction = ImeAction.Done
-                    )
+                Text(
+                    text = username
                 )
             }
             Column(
@@ -156,13 +146,14 @@ fun UserLayout(
             ) {
                 Text(text = stringResource(id = R.string.email_label))
                 TextField(
-                    value = "", // Valeur de l'e-mail
-                    onValueChange = { /* No-op */ },
+                    value = appViewModel.mail, // Valeur de l'e-mail
+                    onValueChange = { appViewModel.updateMail(it) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = colorScheme.surface,
                         unfocusedContainerColor = colorScheme.surface,
                         disabledContainerColor = colorScheme.surface,
                     ),
+                    placeholder = { Text(text = appViewModel.mail) },
                     modifier = Modifier,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done
@@ -180,7 +171,7 @@ fun UserLayout(
             ) {
                 Text(text = stringResource(id = R.string.password_label))
                 TextField(
-                    value = "", // Valeur du nom d'utilisateur
+                    value = uiState.password, // Valeur du nom d'utilisateur
                     onValueChange = { /* No-op */ },
                     visualTransformation = PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
@@ -197,7 +188,7 @@ fun UserLayout(
             ) {
                 Text(text = stringResource(id = R.string.password_label))
                 TextField(
-                    value = "", // Valeur du mot de passe
+                    value = uiState.password , // Valeur du mot de passe
                     onValueChange = { /* No-op */ },
                     visualTransformation = PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(
@@ -235,7 +226,13 @@ fun UserLayout(
                     unfocusedContainerColor = colorScheme.surface,
                     disabledContainerColor = colorScheme.surface,
                 ),
-                modifier = Modifier.weight(0.7f)
+                modifier = Modifier.weight(0.7f),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {  appViewModel.addElement() }
+                )
             )
             Button(
                 onClick = { appViewModel.addElement() },
