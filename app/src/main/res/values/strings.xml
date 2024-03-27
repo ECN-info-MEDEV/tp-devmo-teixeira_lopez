@@ -27,13 +27,14 @@
     <string name="exit">Exit</string>
     <string name="play_again">Play Again</string>
     <string name="wrong_guess">Wrong Guess!</string>
-    <string name="password">pawssord</string>
+    <string name="password">password</string>
     <string name="log_out">Log out</string>
     <string name="username">username</string>
     <string name="login">Login</string>
     <string name="help">Help</string>
     <string name="register">Register</string>
     <string name="username_label">Nom d\'utilisateur</string>
+    <string name="username_pic">Profile picture</string>
     <string name="email_label">Email</string>
     <string name="add">Add</string>
     <string name="password_label">Mot de passe</string>

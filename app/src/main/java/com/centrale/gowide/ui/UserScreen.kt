@@ -65,11 +65,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardColors
@@ -88,7 +90,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 fun UserScreen(
     appViewModel: AppViewModel = viewModel(),
     modifier: Modifier,
-    onSubmitButtonClicked: () -> Unit = {}
+    onLogOutButtonClicked: () -> Unit = {}
 ) {
     val uiState by appViewModel.uiState.collectAsState()
     val mediumPadding = dimensionResource(R.dimen.padding_medium)
@@ -103,7 +105,7 @@ fun UserScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         UserLayout(
-            onSubmitButtonClicked = onSubmitButtonClicked,
+            onLogOutButtonClicked = onLogOutButtonClicked,
             username = uiState.username,
             appViewModel = appViewModel
         )
@@ -115,7 +117,7 @@ fun UserScreen(
 
 @Composable
 fun UserLayout(
-    onSubmitButtonClicked: () -> Unit,
+    onLogOutButtonClicked: () -> Unit,
     username: String,
     appViewModel: AppViewModel
 ) {
@@ -127,6 +129,17 @@ fun UserLayout(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(mediumPadding)
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.picture_felipe),
+                contentDescription = null,
+                modifier = Modifier.size(120.dp).clip(CircleShape)
+            )
+        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(smallPadding)
@@ -248,7 +261,7 @@ fun UserLayout(
 
 
         Button(
-            onClick = onSubmitButtonClicked,
+            onClick = onLogOutButtonClicked,
             modifier = Modifier
                 .height(50.dp)
                 .width(160.dp),

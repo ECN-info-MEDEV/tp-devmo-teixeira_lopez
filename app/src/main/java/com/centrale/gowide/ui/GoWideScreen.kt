@@ -60,8 +60,8 @@ fun GoWideApp (
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(dimensionResource(R.dimen.padding_medium)),
-                    onSubmitButtonClicked = {
-                        navController.navigate(GoWideScreen.Profile.name)
+                    onLogOutButtonClicked = {
+                        navController.navigate(GoWideScreen.Login.name)
                     },
                     appViewModel = viewModel
                 )

@@ -92,4 +92,14 @@ class AppViewModel: ViewModel() {
             updateMissedPass(true)
         }
     }
+    fun deleteCredentials(
+        onSuccess: () -> Unit
+    ) {
+       _uiState.update { currentState ->
+                currentState.copy(username = "", password = "")
+       }
+        updateUsername("")
+        updatePassword("")
+        onSuccess()
+    }
 }
